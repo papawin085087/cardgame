@@ -71,18 +71,22 @@ function playTurn(playerCard, botCard) {
 // ตรวจสอบเกมจบ
 function checkGameOver() {
   if (playerDeck.length === 0 || botDeck.length === 0) {
-    const winner = playerScore > botScore ? "คุณชนะ!" : "บอทชนะ!";
-    const message = playerScore > botScore
-      ? `คะแนนของคุณ: ${playerScore} คะแนน | คะแนนของบอท: ${botScore} คะแนน`
-      : `คะแนนของบอท: ${botScore} คะแนน | คะแนนของคุณ: ${playerScore} คะแนน`;
+    let winner;
+    if (playerScore > botScore) {
+      winner = "คุณชนะ!";
+    } else if (playerScore < botScore) {
+      winner = "บอทชนะ!";
+    } else {
+      winner = "เกมเสมอ!";
+    }
 
     // แสดงผลใน Modal Popup
     const modal = document.getElementById("game-over-modal");
     const title = document.getElementById("game-over-title");
-    const messageEl = document.getElementById("game-over-message");
+    const message = document.getElementById("game-over-message");
 
     title.textContent = winner;
-    messageEl.textContent = message;
+    message.textContent = `คะแนนของคุณ: ${playerScore} | คะแนนของบอท: ${botScore}`;
 
     // แสดง Modal
     modal.classList.add("show");
