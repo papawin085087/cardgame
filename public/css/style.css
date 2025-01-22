@@ -1,0 +1,115 @@
+/* สไตล์พื้นฐาน */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-container {
+  width: 90%;
+  max-width: 600px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.card {
+  width: 80px;
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.hidden-card {
+  background-image: url('/cards/back.png'); /* ใช้รูปหลังไพ่ */
+}
+
+/* กองกลาง */
+.middle-pile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+  height: 300px;
+  margin: 30px auto;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-area {
+  width: 100%; /* ไพ่ครองพื้นที่เต็มด้านกว้าง */
+  height: 120px; /* ความสูงของแต่ละฝั่ง */
+  display: flex;
+  justify-content: center; /* จัดให้อยู่ตรงกลางในฝั่งของตัวเอง */
+  align-items: center;
+}
+
+.card-area .card {
+  position: relative;
+  animation: fade-in 0.5s ease-in-out; /* เพิ่มแอนิเมชัน */
+}
+
+/* แอนิเมชันสำหรับไพ่ */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.scores {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: auto;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.log {
+  margin-top: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: left;
+}

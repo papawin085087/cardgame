@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมไพ่แต้มใหญ่</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>เกมไพ่แต้มใหญ่</h1>
+        <div class="cards">
+            <div class="bot">
+                <h2>ไพ่ของบอท</h2>
+                <div id="bot-cards" class="card-container"></div>
+            </div>
+        </div>
+        <div id="middle-pile" class="middle-pile">
+            <div id="bot-card-middle" class="card-area"></div>
+            <div id="player-card-middle" class="card-area"></div>
+        </div>
+        <div class="player">
+            <h2>ไพ่ของคุณ</h2>
+            <div id="player-cards" class="card-container"></div>
+        </div>
+        <div class="scores">
+            <h3>คะแนนของคุณ: <span id="player-score">0</span></h3>
+            <h3>คะแนนของบอท: <span id="bot-score">0</span></h3>
+        </div>
+        <button id="restart-game">เริ่มเกมใหม่</button>
+        <div class="log" id="log">[ Log การเล่นจะอยู่ตรงนี้ ]</div>
+    </div>
+    <script type="module" src="./js/script.js"></script>
+</body>
+
+</html>
