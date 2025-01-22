@@ -166,10 +166,17 @@ function logAction(message, type = "info") {
 
 // ผู้เล่นเลือกไพ่
 function setupPlayerCardSelection() {
-  document.getElementById("player-cards").addEventListener("click", (event) => {
+  const playerCardsElement = document.getElementById("player-cards");
+
+  // ลบ Event Listener เก่าถ้ามี
+  const newElement = playerCardsElement.cloneNode(true); // Clone เพื่อเริ่มใหม่
+  playerCardsElement.parentNode.replaceChild(newElement, playerCardsElement);
+
+  // เพิ่ม Event Listener ใหม่
+  newElement.addEventListener("click", (event) => {
     if (!isMiddlePileCleared) {
-      logAction("กรุณารอจนกว่ากองกลางจะเคลียร์ก่อนลงไพ่ใหม่!", "error");
-      return; // หยุดการทำงานถ้ากองกลางยังไม่ถูกเคลียร์
+      showNotification("กรุณารอจนกว่ากองกลางจะเคลียร์ก่อนลงไพ่ใหม่!", "error");
+      return;
     }
 
     const cardElement = event.target.closest(".card");
