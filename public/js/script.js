@@ -5,6 +5,8 @@ let botDeck = [];
 let playerScore = 0;
 let botScore = 0;
 let isMiddlePileCleared = true;
+let lastNotification = ""; // ข้อความแจ้งเตือนล่าสุด
+
 
 // แจกไพ่
 function dealCards() {
@@ -45,6 +47,7 @@ function updateUI() {
 // เล่นไพ่
 function playTurn(playerCard, botCard) {
   isMiddlePileCleared = false; // ปิดการอนุญาตให้ลงไพ่ใหม่ระหว่างการแสดงผล
+  logAction("ฝ่ายตรงข้ามกำลังเลือกไพ่...", "info");
 
   // ลบไพ่ของบอทจาก UI ทันที
   updateUI();
@@ -80,16 +83,17 @@ function playTurn(playerCard, botCard) {
         // เปรียบเทียบแต้ม
         if (playerValue > botValue) {
           playerScore++;
-          logAction(`คุณชนะ (${playerCard.rank} vs ${botCard.rank})`, playerCard, botCard);
+          logAction(`คุณชนะ (${playerCard.rank} vs ${botCard.rank})`, "success");
         } else if (playerValue < botValue) {
           botScore++;
-          logAction(`บอทชนะ (${playerCard.rank} vs ${botCard.rank})`, playerCard, botCard);
+          logAction(`บอทชนะ (${playerCard.rank} vs ${botCard.rank})`, "error");
         } else {
-          logAction(`เสมอ (${playerCard.rank} vs ${botCard.rank})`, playerCard, botCard);
+          logAction(`เสมอ (${playerCard.rank} vs ${botCard.rank})`, "info");
         }
 
         // อัปเดต UI และเคลียร์ไพ่ในกองกลาง
         updateUI();
+        logAction("คุณสามารถลงไพ่ได้แล้ว!", "success");
         setTimeout(() => {
           document.getElementById("player-card-middle").innerHTML = "";
           document.getElementById("bot-card-middle").innerHTML = "";
@@ -132,35 +136,39 @@ function checkGameOver() {
   }
 }
 
-function showNotification(message, duration = 3000) {
-  const notification = document.getElementById("notification");
+function showNotification(message, type = "info", duration = 3000) {
+  const container = document.getElementById("notifications-container");
+  if (message === lastNotification) return;
+  lastNotification = message;
 
-  // ตั้งข้อความ
+  // สร้างองค์ประกอบการแจ้งเตือน
+  const notification = document.createElement("div");
+  notification.className = `notification ${type}`;
   notification.textContent = message;
 
-  // แสดงการแจ้งเตือน
-  notification.classList.remove("hidden");
-  notification.classList.add("show");
+  // เพิ่มการแจ้งเตือนใน container
+  container.appendChild(notification);
 
-  // ซ่อนการแจ้งเตือนหลังจากเวลาที่กำหนด
+  // ลบการแจ้งเตือนหลังจากเวลาที่กำหนด
   setTimeout(() => {
-    notification.classList.remove("show");
-    notification.classList.add("hidden");
+    notification.remove();
   }, duration);
 }
 
+
 // Log การเล่น
-function logAction(message) {
-  const log = document.getElementById("log");
-  log.innerHTML += `<p>${message}</p>`;
-  log.scrollTop = log.scrollHeight;
+function logAction(message, type = "info") {
+  // เรียก showNotification เพื่อแสดงข้อความ
+  showNotification(message, type);
 }
+
+
 
 // ผู้เล่นเลือกไพ่
 function setupPlayerCardSelection() {
   document.getElementById("player-cards").addEventListener("click", (event) => {
     if (!isMiddlePileCleared) {
-      showNotification("กรุณารอจนกว่ากองกลางจะเคลียร์ก่อนลงไพ่ใหม่!", 3000);
+      logAction("กรุณารอจนกว่ากองกลางจะเคลียร์ก่อนลงไพ่ใหม่!", "error");
       return; // หยุดการทำงานถ้ากองกลางยังไม่ถูกเคลียร์
     }
 
@@ -184,6 +192,7 @@ function setupPlayerCardSelection() {
     // เรียก playTurn เพื่อดำเนินการเปรียบเทียบแต้ม
     playTurn(playerCard, botCard);
   });
+  logAction("คุณสามารถเลือกไพ่จากมือของคุณได้!", "info");
 }
 
 // เริ่มเกมใหม่
