@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>เกมไพ่แต้มใหญ่</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -11,9 +11,10 @@
 <body>
     <div class="game-container">
         <h1>เกมไพ่แต้มใหญ่</h1>
+        <p>เลือกไพ่จากมือของคุณเพื่อแข่งขันแต้มกับบอท ใครได้แต้มสูงกว่าจะได้รับคะแนน!</p>
         <div class="cards">
             <div class="bot">
-                <h2>ไพ่ของบอท</h2>
+                <h2 data-label="bot-cards">ไพ่ของบอท</h2>
                 <div id="bot-cards" class="card-container"></div>
             </div>
         </div>
@@ -22,7 +23,7 @@
             <div id="player-card-middle" class="card-area"></div>
         </div>
         <div class="player">
-            <h2>ไพ่ของคุณ</h2>
+            <h2 data-label="player-cards">ไพ่ของคุณ</h2>
             <div id="player-cards" class="card-container"></div>
         </div>
         <div class="scores">

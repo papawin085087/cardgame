@@ -10,6 +10,24 @@ body {
   height: 100vh;
 }
 
+@media (max-width: 600px) {
+  .game-container {
+      padding: 10px;
+  }
+
+  .card {
+      width: 60px;
+      height: 90px;
+  }
+
+  .scores {
+      flex-direction: column;
+      text-align: center;
+  }
+}
+
+
+
 .game-container {
   width: 90%;
   max-width: 600px;
@@ -38,10 +56,22 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+  }
+  40% {
+      transform: translateY(-10px);
+  }
+  60% {
+      transform: translateY(-5px);
+  }
 }
+
+.card:hover {
+  animation: bounce 1s;
+}
+
 
 .hidden-card {
   background-image: url("/cards/back.png"); /* ใช้รูปหลังไพ่ */
@@ -49,21 +79,10 @@ body {
 
 /* กองกลาง */
 .middle-pile {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 200px;
-  height: 300px;
-  margin: 30px auto;
-  background-color: white;
-  border: 2px solid black;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  position: relative;
-  overflow: hidden;
+  border: 3px dashed #000;
+  background-color: #f9f9f9;
 }
+
 
 .card-area {
   width: 100%; /* ไพ่ครองพื้นที่เต็มด้านกว้าง */
@@ -218,6 +237,21 @@ button {
   to {
     opacity: 0;
   }
+}
+
+.notification.success::before {
+  content: '✔';
+  margin-right: 8px;
+}
+
+.notification.error::before {
+  content: '✖';
+  margin-right: 8px;
+}
+
+.notification.info::before {
+  content: 'ℹ';
+  margin-right: 8px;
 }
 
 

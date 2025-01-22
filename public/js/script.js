@@ -1,4 +1,5 @@
 import { createDeck, calculateRankValue } from "./deck.js";
+import { drawCard } from "./deck.js";
 
 let playerDeck = [];
 let botDeck = [];
@@ -6,13 +7,14 @@ let playerScore = 0;
 let botScore = 0;
 let isMiddlePileCleared = true;
 let lastNotification = ""; // ข้อความแจ้งเตือนล่าสุด
+let deck = []; // สำรับกลางสำหรับจั่วไพ่
 
 
 // แจกไพ่
 function dealCards() {
-  const deck = createDeck();
-  playerDeck = deck.slice(0, 7);
-  botDeck = deck.slice(7, 14);
+  deck = createDeck();
+  playerDeck = deck.splice(0, 7);
+  botDeck = deck.splice(0, 7);
   updateUI();
 }
 
@@ -88,7 +90,23 @@ function playTurn(playerCard, botCard) {
           botScore++;
           logAction(`บอทชนะ (${playerCard.rank} vs ${botCard.rank})`, "error");
         } else {
-          logAction(`เสมอ (${playerCard.rank} vs ${botCard.rank})`, "info");
+          // กรณีแต้มเท่ากัน
+          logAction(`เสมอ (${playerCard.rank} vs ${botCard.rank}) จั่วไพ่เพิ่ม`, "info");
+
+          // จั่วไพ่เพิ่มให้ทั้งสองฝ่าย
+          const newPlayerCard = drawCard(deck);
+          const newBotCard = drawCard(deck);
+
+          if (newPlayerCard) {
+            playerDeck.push(newPlayerCard);
+            logAction(`คุณจั่วไพ่เพิ่ม: ${newPlayerCard.rank} of ${newPlayerCard.suit}`, "info");
+          } else {
+            logAction("สำรับหมด ไม่มีไพ่ให้จั่ว!", "error");
+          }
+
+          if (newBotCard) {
+            botDeck.push(newBotCard);
+          }
         }
 
         // อัปเดต UI และเคลียร์ไพ่ในกองกลาง
@@ -210,9 +228,7 @@ function restartGame() {
   setupPlayerCardSelection();
   document.getElementById("bot-card-middle").innerHTML = "";
   document.getElementById("player-card-middle").innerHTML = "";
-  document.getElementById("log").textContent = "";
 }
 
 // เริ่มเกม
 restartGame();
-document.getElementById("restart-game").addEventListener("click", restartGame);

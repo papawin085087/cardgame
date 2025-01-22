@@ -14,3 +14,7 @@ export function createDeck() {
 export function calculateRankValue(rank) {
   return ranks.indexOf(rank);
 }
+
+export function drawCard(deck) {
+  return deck.length > 0 ? deck.pop() : null; // คืนค่าไพ่หรือ null ถ้าสำรับว่าง
+}
