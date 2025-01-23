@@ -185,6 +185,7 @@ button {
 }
 
 /* การแจ้งเตือน */
+/* การแจ้งเตือน */
 .notifications-container {
   position: fixed;
   bottom: 20px;
@@ -196,12 +197,15 @@ button {
 }
 
 .notification {
-  background-color: #2196f3; /* สีพื้นฐาน */
+  background-color: #2196f3; /* สีน้ำเงินพื้นฐาน */
   color: white;
   padding: 15px 20px;
   border-radius: 5px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  font-size: 14px;
+  font-size: 16px; /* ขนาดตัวอักษรใหญ่ขึ้น */
+  font-weight: bold; /* ตัวอักษรหนา */
+  display: flex;
+  align-items: center;
   opacity: 0;
   transform: translateX(100%);
   animation: slide-in 0.3s ease forwards, fade-out 0.3s ease 2.7s forwards;
@@ -217,6 +221,43 @@ button {
 
 .notification.info {
   background-color: #2196f3; /* สีน้ำเงิน */
+}
+
+.notification.warning {
+  background-color: #ff9800; /* สีส้ม */
+}
+
+.notification::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  background-size: cover;
+}
+
+.notification.success::before {
+  content: '✔'; /* เพิ่มไอคอนถูก */
+  color: white;
+  font-size: 18px;
+}
+
+.notification.error::before {
+  content: '✖'; /* เพิ่มไอคอนผิด */
+  color: white;
+  font-size: 18px;
+}
+
+.notification.info::before {
+  content: 'ℹ'; /* เพิ่มไอคอนข้อมูล */
+  color: white;
+  font-size: 18px;
+}
+
+.notification.warning::before {
+  content: '⚠'; /* เพิ่มไอคอนเตือน */
+  color: white;
+  font-size: 18px;
 }
 
 @keyframes slide-in {
@@ -239,19 +280,40 @@ button {
   }
 }
 
-.notification.success::before {
-  content: '✔';
-  margin-right: 8px;
+
+
+.deck {
+  width: 80px;
+  height: 120px;
+  background-image: url("/cards/back.png"); /* ใช้เส้นทางไฟล์ที่ถูกต้อง */
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  border: 2px solid #999;
+  position: relative;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
 }
 
-.notification.error::before {
-  content: '✖';
-  margin-right: 8px;
+.card.dealing {
+  position: absolute;
+  z-index: 1000;
+  animation: deal-card 0.5s ease-out forwards;
 }
 
-.notification.info::before {
-  content: 'ℹ';
-  margin-right: 8px;
+@keyframes deal-card {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(var(--move-x), var(--move-y)) scale(1);
+    opacity: 1;
+  }
 }
-
 

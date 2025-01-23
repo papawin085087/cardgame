@@ -18,6 +18,44 @@ function dealCards() {
   updateUI();
 }
 
+function dealCardsWithAnimation() {
+  const deckElement = document.getElementById("deck");
+  const playerCardsElement = document.getElementById("player-cards");
+  const botCardsElement = document.getElementById("bot-cards");
+
+  for (let i = 0; i < 14; i++) {
+    setTimeout(() => {
+      const fakeCard = document.createElement("div");
+      fakeCard.className = "card dealing hidden-card"; // ใช้คลาสสำหรับไพ่แจก
+
+      // กำหนดตำแหน่งเป้าหมาย
+      const targetElement =
+        i % 2 === 0 ? playerCardsElement : botCardsElement;
+      const targetRect = targetElement.getBoundingClientRect();
+      const deckRect = deckElement.getBoundingClientRect();
+
+      // คำนวณการเคลื่อนที่
+      fakeCard.style.setProperty(
+        "--move-x",
+        `${targetRect.left - deckRect.left}px`
+      );
+      fakeCard.style.setProperty(
+        "--move-y",
+        `${targetRect.top - deckRect.top}px`
+      );
+
+      // เพิ่มไพ่ลงในสำรับ
+      deckElement.appendChild(fakeCard);
+
+      // ลบไพ่แจกหลังจากแอนิเมชันเสร็จ
+      setTimeout(() => {
+        fakeCard.remove();
+      }, 500);
+    }, i * 200); // หน่วงเวลาแจกไพ่แต่ละใบ
+  }
+}
+
+
 // แสดงไพ่
 function renderCard(card) {
   return `<div
@@ -224,11 +262,25 @@ function setupPlayerCardSelection() {
 function restartGame() {
   playerScore = 0;
   botScore = 0;
-  dealCards();
-  setupPlayerCardSelection();
-  document.getElementById("bot-card-middle").innerHTML = "";
+  playerDeck = [];
+  botDeck = [];
+  deck = createDeck(); // สร้างสำรับใหม่
+
+  document.getElementById("player-cards").innerHTML = "";
+  document.getElementById("bot-cards").innerHTML = "";
   document.getElementById("player-card-middle").innerHTML = "";
+  document.getElementById("bot-card-middle").innerHTML = "";
+
+  // อนิเมชันแจกไพ่
+  dealCardsWithAnimation();
+
+  // แจกไพ่จริงหลังจากอนิเมชันเสร็จ
+  setTimeout(() => {
+    dealCards();
+    setupPlayerCardSelection();
+  }, 3000); // รอ 3 วินาทีให้อนิเมชันเสร็จ
 }
+
 
 // เริ่มเกม
 restartGame();
