@@ -53,6 +53,7 @@ function dealCardsWithAnimation() {
       }, 500);
     }, i * 200); // หน่วงเวลาแจกไพ่แต่ละใบ
   }
+  logAction("กำลังทำการแจกไพ่...", "info");
 }
 
 
